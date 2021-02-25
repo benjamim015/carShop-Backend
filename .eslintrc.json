@@ -32,7 +32,8 @@
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",
     "class-methods-use-this": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-restricted-syntax": "off"
   },
   "settings": {
     "import/resolver": {
