@@ -60,4 +60,17 @@ describe('AddCarShopController', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('cnpj'));
   });
+
+  it('Should calls CnpjValidator with correct cnpj', () => {
+    const { sut, cnpjValidatorStub } = makeSut();
+    const isValidSpy = jest.spyOn(cnpjValidatorStub, 'isValid');
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cnpj: 'any_cnpj',
+      },
+    };
+    sut.handle(httpRequest);
+    expect(isValidSpy).toHaveBeenCalledWith('any_cnpj');
+  });
 });
