@@ -1,5 +1,5 @@
-import { AddCarShopController } from '../../../src/presentation/controllers/addCarShopController';
-import { MissingParamError } from '../../../src/presentation/errors/missingParamError';
+import { AddCarShopController } from '@/presentation/controllers/addCarShopController';
+import { MissingParamError } from '@/presentation/errors/missingParamError';
 
 describe('AddCarShopController', () => {
   it('Should return 400 if no name is provided', () => {
