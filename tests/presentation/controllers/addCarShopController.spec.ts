@@ -4,7 +4,7 @@ import {
   InvalidParamError,
   ServerError,
 } from '@/presentation/errors';
-import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
+import { CnpjValidator } from '@/presentation/protocols';
 
 type SutTypes = {
   sut: AddCarShopController;
