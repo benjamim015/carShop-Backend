@@ -1,9 +1,11 @@
 import { AddCarShopController } from '@/presentation/controllers/addCarShopController';
 import { MissingParamError } from '@/presentation/errors/missingParamError';
 
+const makeSut = (): AddCarShopController => new AddCarShopController();
+
 describe('AddCarShopController', () => {
   it('Should return 400 if no name is provided', () => {
-    const sut = new AddCarShopController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         cnpj: 'any_cnpj',
@@ -15,7 +17,7 @@ describe('AddCarShopController', () => {
   });
 
   it('Should return 400 if no cnpj is provided', () => {
-    const sut = new AddCarShopController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         name: 'any_name',
