@@ -11,13 +11,17 @@ type SutTypes = {
   cnpjValidatorStub: CnpjValidator;
 };
 
-const makeSut = (): SutTypes => {
+const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {
     isValid(_cnpj: string): boolean {
       return true;
     }
   }
-  const cnpjValidatorStub = new CnpjValidatorStub();
+  return new CnpjValidatorStub();
+};
+
+const makeSut = (): SutTypes => {
+  const cnpjValidatorStub = makeCnpjValidator();
   const sut = new AddCarShopController(cnpjValidatorStub);
   return {
     sut,
@@ -78,13 +82,10 @@ describe('AddCarShopController', () => {
   });
 
   it('Should return 500 if CnpjValidator throws', () => {
-    class CnpjValidatorStub implements CnpjValidator {
-      isValid(_cnpj: string): boolean {
-        throw new Error();
-      }
-    }
-    const cnpjValidatorStub = new CnpjValidatorStub();
-    const sut = new AddCarShopController(cnpjValidatorStub);
+    const { sut, cnpjValidatorStub } = makeSut();
+    jest.spyOn(cnpjValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error();
+    });
     const httpRequest = {
       body: {
         name: 'any_name',
