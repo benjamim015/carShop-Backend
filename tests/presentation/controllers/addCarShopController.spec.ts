@@ -131,4 +131,20 @@ describe('AddCarShopController', () => {
     sut.handle(httpRequest);
     expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
   });
+
+  it('Should return 500 if AddCarShop throws', () => {
+    const { sut, addCarShopStub } = makeSut();
+    jest.spyOn(addCarShopStub, 'add').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cnpj: 'any_cnpj',
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
+  });
 });
