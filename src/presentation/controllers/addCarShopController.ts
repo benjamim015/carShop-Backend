@@ -1,9 +1,8 @@
-import { HttpRequest, HttpResponse } from '../protocols/http';
-import { MissingParamError } from '../errors/missingParamError';
+import { MissingParamError, InvalidParamError } from '../errors';
 import { badRequest, serverError } from '../helpers/http';
-import { Controller } from '../protocols/controller';
 import { CnpjValidator } from '../protocols/cnpjValidator';
-import { InvalidParamError } from '../errors/invalidParamError';
+import { Controller } from '../protocols/controller';
+import { HttpRequest, HttpResponse } from '../protocols/http';
 
 export class AddCarShopController implements Controller {
   constructor(private cnpjValidator: CnpjValidator) {}

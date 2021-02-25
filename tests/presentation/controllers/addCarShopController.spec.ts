@@ -1,8 +1,10 @@
 import { AddCarShopController } from '@/presentation/controllers/addCarShopController';
-import { MissingParamError } from '@/presentation/errors/missingParamError';
-import { InvalidParamError } from '@/presentation/errors/invalidParamError';
+import {
+  MissingParamError,
+  InvalidParamError,
+  ServerError,
+} from '@/presentation/errors';
 import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
-import { ServerError } from '@/presentation/errors/serverError';
 
 type SutTypes = {
   sut: AddCarShopController;
