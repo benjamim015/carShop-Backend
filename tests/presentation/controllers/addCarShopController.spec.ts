@@ -2,6 +2,7 @@ import { AddCarShopController } from '@/presentation/controllers/addCarShopContr
 import { MissingParamError } from '@/presentation/errors/missingParamError';
 import { InvalidParamError } from '@/presentation/errors/invalidParamError';
 import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
+import { ServerError } from '@/presentation/errors/serverError';
 
 type SutTypes = {
   sut: AddCarShopController;
@@ -10,7 +11,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   class CnpjValidatorStub implements CnpjValidator {
-    isValid(cnpj: string): boolean {
+    isValid(_cnpj: string): boolean {
       return true;
     }
   }
@@ -72,5 +73,24 @@ describe('AddCarShopController', () => {
     };
     sut.handle(httpRequest);
     expect(isValidSpy).toHaveBeenCalledWith('any_cnpj');
+  });
+
+  it('Should return 500 if CnpjValidator throws', () => {
+    class CnpjValidatorStub implements CnpjValidator {
+      isValid(_cnpj: string): boolean {
+        throw new Error();
+      }
+    }
+    const cnpjValidatorStub = new CnpjValidatorStub();
+    const sut = new AddCarShopController(cnpjValidatorStub);
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cnpj: 'any_cnpj',
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
   });
 });
