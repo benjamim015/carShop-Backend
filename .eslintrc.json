@@ -33,7 +33,8 @@
     "import/prefer-default-export": "off",
     "class-methods-use-this": "off",
     "consistent-return": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "no-useless-constructor": "off"
   },
   "settings": {
     "import/resolver": {
