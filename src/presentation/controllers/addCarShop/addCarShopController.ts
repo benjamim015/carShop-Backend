@@ -14,7 +14,7 @@ export class AddCarShopController implements Controller {
     private addCarShop: AddCarShop,
   ) {}
 
-  handle(httpRequest: HttpRequest): HttpResponse {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = ['name', 'cnpj'];
       for (const field of requiredFields) {
@@ -27,7 +27,7 @@ export class AddCarShopController implements Controller {
       if (!isValidCnpj) {
         return badRequest(new InvalidParamError('cnpj'));
       }
-      const carShop = this.addCarShop.add({
+      const carShop = await this.addCarShop.add({
         name,
         cnpj,
       });

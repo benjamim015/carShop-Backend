@@ -22,13 +22,13 @@ const makeCnpjValidator = (): CnpjValidator => {
 
 const makeAddCarShop = (): AddCarShop => {
   class AddCarShopStub implements AddCarShop {
-    add(_carShop: AddCarShopModel): CarShopModel {
+    async add(_carShop: AddCarShopModel): Promise<CarShopModel> {
       const fakeCarShop = {
         id: 'valid_id',
         name: 'valid_name',
         cnpj: 'valid_cnpj',
       };
-      return fakeCarShop;
+      return new Promise(resolve => resolve(fakeCarShop));
     }
   }
   return new AddCarShopStub();
@@ -52,31 +52,31 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AddCarShopController', () => {
-  it('Should return 400 if no name is provided', () => {
+  it('Should return 400 if no name is provided', async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
         cnpj: 'any_cnpj',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('name'));
   });
 
-  it('Should return 400 if no cnpj is provided', () => {
+  it('Should return 400 if no cnpj is provided', async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
         name: 'any_name',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('cnpj'));
   });
 
-  it('Should return 400 if an invalid cnpj is provided', () => {
+  it('Should return 400 if an invalid cnpj is provided', async () => {
     const { sut, cnpjValidatorStub } = makeSut();
     jest.spyOn(cnpjValidatorStub, 'isValid').mockReturnValueOnce(false);
     const httpRequest = {
@@ -85,12 +85,12 @@ describe('AddCarShopController', () => {
         cnpj: 'invalid_cnpj',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('cnpj'));
   });
 
-  it('Should call CnpjValidator with correct cnpj', () => {
+  it('Should call CnpjValidator with correct cnpj', async () => {
     const { sut, cnpjValidatorStub } = makeSut();
     const isValidSpy = jest.spyOn(cnpjValidatorStub, 'isValid');
     const httpRequest = {
@@ -99,11 +99,11 @@ describe('AddCarShopController', () => {
         cnpj: 'any_cnpj',
       },
     };
-    sut.handle(httpRequest);
+    await sut.handle(httpRequest);
     expect(isValidSpy).toHaveBeenCalledWith('any_cnpj');
   });
 
-  it('Should return 500 if CnpjValidator throws', () => {
+  it('Should return 500 if CnpjValidator throws', async () => {
     const { sut, cnpjValidatorStub } = makeSut();
     jest.spyOn(cnpjValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error();
@@ -114,12 +114,12 @@ describe('AddCarShopController', () => {
         cnpj: 'any_cnpj',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
   });
 
-  it('Should call AddCarShop with correct values', () => {
+  it('Should call AddCarShop with correct values', async () => {
     const { sut, addCarShopStub } = makeSut();
     const addSpy = jest.spyOn(addCarShopStub, 'add');
     const httpRequest = {
@@ -128,27 +128,29 @@ describe('AddCarShopController', () => {
         cnpj: 'any_cnpj',
       },
     };
-    sut.handle(httpRequest);
+    await sut.handle(httpRequest);
     expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 
-  it('Should return 500 if AddCarShop throws', () => {
+  it('Should return 500 if AddCarShop throws', async () => {
     const { sut, addCarShopStub } = makeSut();
-    jest.spyOn(addCarShopStub, 'add').mockImplementationOnce(() => {
-      throw new Error();
-    });
+    jest
+      .spyOn(addCarShopStub, 'add')
+      .mockImplementationOnce(
+        async () => new Promise((resolve, reject) => reject(new Error())),
+      );
     const httpRequest = {
       body: {
         name: 'any_name',
         cnpj: 'any_cnpj',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
   });
 
-  it('Should return 200 if valid data is provided', () => {
+  it('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
@@ -156,7 +158,7 @@ describe('AddCarShopController', () => {
         cnpj: 'valid_cnpj',
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(200);
     expect(httpResponse.body).toEqual({ id: 'valid_id', ...httpRequest.body });
   });
