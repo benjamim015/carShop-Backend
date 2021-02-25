@@ -5,7 +5,7 @@
   "author": "Benjamim <benjamimq015@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:staged": "jest --passWithNoTests"
   },
   "devDependencies": {
