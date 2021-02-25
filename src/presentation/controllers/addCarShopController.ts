@@ -1,10 +1,9 @@
 import { HttpRequest, HttpResponse } from '../protocols/http';
 import { MissingParamError } from '../errors/missingParamError';
-import { badRequest } from '../helpers/http';
+import { badRequest, serverError } from '../helpers/http';
 import { Controller } from '../protocols/controller';
 import { CnpjValidator } from '../protocols/cnpjValidator';
 import { InvalidParamError } from '../errors/invalidParamError';
-import { ServerError } from '../errors/serverError';
 
 export class AddCarShopController implements Controller {
   constructor(private cnpjValidator: CnpjValidator) {}
@@ -22,10 +21,7 @@ export class AddCarShopController implements Controller {
         return badRequest(new InvalidParamError('cnpj'));
       }
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new ServerError(),
-      };
+      return serverError();
     }
   }
 }
