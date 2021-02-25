@@ -1,12 +1,12 @@
-import { AddCarShop } from '@/domain/useCases/addCarShop';
-import { MissingParamError, InvalidParamError } from '../errors';
-import { badRequest, serverError } from '../helpers/http';
+import { MissingParamError, InvalidParamError } from '@/presentation/errors';
+import { badRequest, serverError } from '@/presentation/helpers/http';
 import {
   Controller,
   CnpjValidator,
+  AddCarShop,
   HttpRequest,
   HttpResponse,
-} from '../protocols';
+} from './addCarShopProtocols';
 
 export class AddCarShopController implements Controller {
   constructor(

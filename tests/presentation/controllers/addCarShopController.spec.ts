@@ -1,12 +1,15 @@
-import { CarShopModel } from '@/domain/models/carShop';
-import { AddCarShop, AddCarShopModel } from '@/domain/useCases/addCarShop';
-import { AddCarShopController } from '@/presentation/controllers/addCarShopController';
+import { AddCarShopController } from '@/presentation/controllers/addCarShop/addCarShopController';
 import {
   MissingParamError,
   InvalidParamError,
   ServerError,
 } from '@/presentation/errors';
-import { CnpjValidator } from '@/presentation/protocols';
+import {
+  AddCarShop,
+  AddCarShopModel,
+  CarShopModel,
+  CnpjValidator,
+} from '@/presentation/controllers/addCarShop/addCarShopProtocols';
 
 const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {
