@@ -1,4 +1,5 @@
 import { AddCarShopController } from '../../../src/presentation/controllers/addCarShopController';
+import { MissingParamError } from '../../../src/presentation/errors/missingParamError';
 
 describe('AddCarShopController', () => {
   it('Should return 400 if no name is provided', () => {
@@ -10,7 +11,7 @@ describe('AddCarShopController', () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new Error('Missing param: name'));
+    expect(httpResponse.body).toEqual(new MissingParamError('name'));
   });
 
   it('Should return 400 if no cnpj is provided', () => {
@@ -22,6 +23,6 @@ describe('AddCarShopController', () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new Error('Missing param: cnpj'));
+    expect(httpResponse.body).toEqual(new MissingParamError('cnpj'));
   });
 });
