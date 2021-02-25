@@ -27,10 +27,14 @@ export class AddCarShopController implements Controller {
       if (!isValidCnpj) {
         return badRequest(new InvalidParamError('cnpj'));
       }
-      this.addCarShop.add({
+      const carShop = this.addCarShop.add({
         name,
         cnpj,
       });
+      return {
+        statusCode: 200,
+        body: carShop,
+      };
     } catch (error) {
       return serverError();
     }
