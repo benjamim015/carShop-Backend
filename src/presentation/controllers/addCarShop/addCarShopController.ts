@@ -1,5 +1,5 @@
 import { MissingParamError, InvalidParamError } from '@/presentation/errors';
-import { badRequest, serverError } from '@/presentation/helpers/http';
+import { badRequest, serverError, ok } from '@/presentation/helpers/http';
 import {
   Controller,
   CnpjValidator,
@@ -31,10 +31,7 @@ export class AddCarShopController implements Controller {
         name,
         cnpj,
       });
-      return {
-        statusCode: 200,
-        body: carShop,
-      };
+      return ok(carShop);
     } catch (error) {
       return serverError();
     }
