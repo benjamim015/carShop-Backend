@@ -1,3 +1,5 @@
+import { CarShopModel } from '@/domain/models/carShop';
+import { AddCarShop, AddCarShopModel } from '@/domain/useCases/addCarShop';
 import { AddCarShopController } from '@/presentation/controllers/addCarShopController';
 import {
   MissingParamError,
@@ -5,11 +7,6 @@ import {
   ServerError,
 } from '@/presentation/errors';
 import { CnpjValidator } from '@/presentation/protocols';
-
-type SutTypes = {
-  sut: AddCarShopController;
-  cnpjValidatorStub: CnpjValidator;
-};
 
 const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {
@@ -20,11 +17,33 @@ const makeCnpjValidator = (): CnpjValidator => {
   return new CnpjValidatorStub();
 };
 
+const makeAddCarShop = (): AddCarShop => {
+  class AddCarShopStub implements AddCarShop {
+    add(_carShop: AddCarShopModel): CarShopModel {
+      const fakeCarShop = {
+        id: 'valid_id',
+        name: 'valid_name',
+        cnpj: 'valid_cnpj',
+      };
+      return fakeCarShop;
+    }
+  }
+  return new AddCarShopStub();
+};
+
+type SutTypes = {
+  sut: AddCarShopController;
+  cnpjValidatorStub: CnpjValidator;
+  addCarShopStub: AddCarShop;
+};
+
 const makeSut = (): SutTypes => {
   const cnpjValidatorStub = makeCnpjValidator();
-  const sut = new AddCarShopController(cnpjValidatorStub);
+  const addCarShopStub = makeAddCarShop();
+  const sut = new AddCarShopController(cnpjValidatorStub, addCarShopStub);
   return {
     sut,
+    addCarShopStub,
     cnpjValidatorStub,
   };
 };
@@ -68,7 +87,7 @@ describe('AddCarShopController', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('cnpj'));
   });
 
-  it('Should calls CnpjValidator with correct cnpj', () => {
+  it('Should call CnpjValidator with correct cnpj', () => {
     const { sut, cnpjValidatorStub } = makeSut();
     const isValidSpy = jest.spyOn(cnpjValidatorStub, 'isValid');
     const httpRequest = {
@@ -95,5 +114,18 @@ describe('AddCarShopController', () => {
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  it('Should call AddCarShop with correct values', () => {
+    const { sut, addCarShopStub } = makeSut();
+    const addSpy = jest.spyOn(addCarShopStub, 'add');
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cnpj: 'any_cnpj',
+      },
+    };
+    sut.handle(httpRequest);
+    expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
