@@ -4,6 +4,7 @@ import {
   CarShopModel,
   AddCarShopRepository,
 } from '@/data/useCases/addCarShop/dbAddCarShopProtocols';
+import { rejects } from 'assert';
 
 const makeAddCarShopRepository = (): AddCarShopRepository => {
   class AddCarShopRepositoryStub implements AddCarShopRepository {
@@ -43,5 +44,18 @@ describe('DbAddCarShop UseCase', () => {
     };
     await sut.add(carShopData);
     expect(addSpy).toHaveBeenCalledWith(carShopData);
+  });
+
+  it('should throw if DbAddCarShop throws', async () => {
+    const { sut, addCarShopRepositoryStub } = makeSut();
+    jest
+      .spyOn(addCarShopRepositoryStub, 'add')
+      .mockReturnValueOnce(new Promise((_, reject) => reject(new Error())));
+    const carShopData = {
+      cnpj: 'valid_cnpj',
+      name: 'valid_name',
+    };
+    const promise = sut.add(carShopData);
+    await expect(promise).rejects.toThrow();
   });
 });
