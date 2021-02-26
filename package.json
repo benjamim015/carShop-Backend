@@ -33,7 +33,8 @@
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "module-alias": "^2.2.2"
+    "module-alias": "^2.2.2",
+    "some-validations": "^0.1.0"
   },
   "_moduleAliases": {
     "@": "dist"

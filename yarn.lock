@@ -4238,6 +4238,11 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+some-validations@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/some-validations/-/some-validations-0.1.0.tgz#4deb9d402582c06ddc1397fd40e155bfebfd06bc"
+  integrity sha512-r81BYtRLPkGU9HllWIBUB7Tln96xP+aLoRk4b12LVISaLKrQcZbyGmcorvB3/VK3FkX2U/5vi8r4dXzpvrGaQA==
+
 source-map-resolve@^0.5.0:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/source-map-resolve/-/source-map-resolve-0.5.3.tgz#190866bece7553e1f8f267a2ee82c606b5509a1a"
