@@ -4,7 +4,6 @@ import {
   CarShopModel,
   AddCarShopRepository,
 } from '@/data/useCases/addCarShop/dbAddCarShopProtocols';
-import { rejects } from 'assert';
 
 const makeAddCarShopRepository = (): AddCarShopRepository => {
   class AddCarShopRepositoryStub implements AddCarShopRepository {
@@ -57,5 +56,15 @@ describe('DbAddCarShop UseCase', () => {
     };
     const promise = sut.add(carShopData);
     await expect(promise).rejects.toThrow();
+  });
+
+  it('should return an car shop on success', async () => {
+    const { sut } = makeSut();
+    const carShopData = {
+      cnpj: 'valid_cnpj',
+      name: 'valid_name',
+    };
+    const carShop = await sut.add(carShopData);
+    expect(carShop).toEqual({ ...carShopData, id: 'valid_id' });
   });
 });
