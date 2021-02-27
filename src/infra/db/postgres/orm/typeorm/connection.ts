@@ -16,6 +16,7 @@ export const typeORMHelper = {
             : defaultConnectionOptions.database,
       }),
     );
+    await this.client.runMigrations();
   },
 
   async disconnect(): Promise<void> {
