@@ -1,3 +1,6 @@
+const dir = process.env.NODE_ENV === 'dev' || 'test' ? 'src' : 'dist'
+const extension = process.env.NODE_ENV === 'dev' || 'test' ? 'ts' : 'js'
+
 module.exports = {
   type: "postgres",
   host: "localhost",
@@ -5,9 +8,9 @@ module.exports = {
   username: "postgres",
   password: "postgres",
   database: "car_shops",
-  entities: ["./src/infra/db/postgres/orm/typeorm/entities/*.ts"],
-  migrations: ["./src/infra/db/postgres/orm/typeorm/migrations/*.ts"],
+  entities: [`./${dir}/infra/db/postgres/orm/typeorm/entities/*.${extension}`],
+  migrations: [`./${dir}/infra/db/postgres/orm/typeorm/migrations/*.${extension}`],
   cli: {
-    migrationsDir: "./src/infra/db/postgres/orm/typeorm/migrations"
+    migrationsDir: `./${dir}/infra/db/postgres/orm/typeorm/migrations`
   }
 }

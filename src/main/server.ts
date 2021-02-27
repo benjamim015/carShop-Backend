@@ -1,3 +1,16 @@
-import app from './config/app';
+import 'dotenv/config';
+import 'reflect-metadata';
+import './config/moduleAlias';
 
-app.listen(3333, () => console.log('Server running at http://localhost:3333'));
+import { typeORMHelper } from '@/infra/db/postgres/orm/typeorm/connection';
+
+typeORMHelper
+  .connect()
+  .then(async () => {
+    const app = (await import('./config/app')).default;
+
+    app.listen(process.env.PORT, () =>
+      console.log(`Server running at http://localhost:${process.env.PORT}`),
+    );
+  })
+  .catch(console.error);
