@@ -1,5 +1,5 @@
 import { CarShopPgTypeORMRepository } from '@/infra/db/postgres/orm/typeorm/repositories/carShopRepository';
-import { typeORMHelper } from '@/infra/db/postgres/orm/typeorm/connection';
+import { TypeORMHelper } from '@/infra/db/postgres/orm/typeorm/helper';
 
 interface SutTypes {
   sut: CarShopPgTypeORMRepository;
@@ -14,15 +14,15 @@ const makeSut = (): SutTypes => {
 
 describe('CarShop PostgreSQL Repository', () => {
   beforeAll(async () => {
-    await typeORMHelper.connect();
+    await TypeORMHelper.instance.connect();
   });
 
   beforeEach(async () => {
-    await typeORMHelper.deleteFrom('car_shops');
+    await TypeORMHelper.instance.deleteFrom('car_shops');
   });
 
   afterAll(async () => {
-    await typeORMHelper.disconnect();
+    await TypeORMHelper.instance.disconnect();
   });
 
   it('should return an car shop on success', async () => {

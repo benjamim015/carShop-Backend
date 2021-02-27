@@ -1,5 +1,5 @@
-const dir = process.env.NODE_ENV === 'dev' || 'test' ? 'src' : 'dist'
-const extension = process.env.NODE_ENV === 'dev' || 'test' ? 'ts' : 'js'
+const dir = process.env.NODE_ENV === 'prod' ? 'dist' : 'src';
+const extension = process.env.NODE_ENV === 'prod' ? 'js' : 'ts';
 
 module.exports = {
   type: "postgres",

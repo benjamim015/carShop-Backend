@@ -1,8 +1,21 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 import { createConnection, getConnectionOptions, Connection } from 'typeorm';
 
-export const typeORMHelper = {
-  client: null as Connection,
+export class TypeORMHelper {
+  private client: Connection = null;
+
+  private static _instance: TypeORMHelper;
+
+  private constructor() {}
+
+  static get instance(): TypeORMHelper {
+    if (!TypeORMHelper._instance) {
+      TypeORMHelper._instance = new TypeORMHelper();
+    }
+    return TypeORMHelper._instance;
+  }
 
   async connect(): Promise<void> {
     const defaultConnectionOptions = await getConnectionOptions();
@@ -17,14 +30,14 @@ export const typeORMHelper = {
       }),
     );
     await this.client.runMigrations();
-  },
+  }
 
   async disconnect(): Promise<void> {
     await this.client.close();
     this.client = null;
-  },
+  }
 
   async deleteFrom(table: string): Promise<void> {
     await this.client.query(`DELETE FROM ${table}`);
-  },
-};
+  }
+}

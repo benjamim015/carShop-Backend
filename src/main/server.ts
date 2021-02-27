@@ -2,9 +2,9 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import './config/moduleAlias';
 
-import { typeORMHelper } from '@/infra/db/postgres/orm/typeorm/connection';
+import { TypeORMHelper } from '@/infra/db/postgres/orm/typeorm/helper';
 
-typeORMHelper
+TypeORMHelper.instance
   .connect()
   .then(async () => {
     const app = (await import('./config/app')).default;

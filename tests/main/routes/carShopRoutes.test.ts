@@ -1,18 +1,18 @@
 import app from '@/main/config/app';
-import { typeORMHelper } from '@/infra/db/postgres/orm/typeorm/connection';
+import { TypeORMHelper } from '@/infra/db/postgres/orm/typeorm/helper';
 import request from 'supertest';
 
 describe('CarShop Routes', () => {
   beforeAll(async () => {
-    await typeORMHelper.connect();
+    await TypeORMHelper.instance.connect();
   });
 
   beforeEach(async () => {
-    await typeORMHelper.deleteFrom('car_shops');
+    await TypeORMHelper.instance.deleteFrom('car_shops');
   });
 
   afterAll(async () => {
-    await typeORMHelper.disconnect();
+    await TypeORMHelper.instance.disconnect();
   });
 
   it('should return an car shop on success', async () => {
