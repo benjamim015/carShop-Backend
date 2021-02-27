@@ -4,7 +4,7 @@ module.exports = {
   port: 5432,
   username: "postgres",
   password: "postgres",
-  database: "car_shop_tests",
+  database: "car_shops",
   entities: ["./src/infra/db/postgres/orm/typeorm/entities/*.ts"],
   migrations: ["./src/infra/db/postgres/orm/typeorm/migrations/*.ts"],
   cli: {
