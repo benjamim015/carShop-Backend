@@ -36,6 +36,7 @@
     "no-restricted-syntax": "off",
     "no-useless-constructor": "off",
     "max-classes-per-file": "off",
+    "camelcase":"off",
     "@typescript-eslint/no-unused-vars": ["warn", {
       "argsIgnorePattern": "_"
     }]
