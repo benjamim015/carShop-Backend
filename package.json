@@ -11,11 +11,13 @@
     "test:unit": "yarn test --watch -c jest.unit.config.js",
     "test:integration": "yarn test --watch -c jest.integration.config.js",
     "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage"
+    "test:ci": "yarn test --coverage",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.31",
+    "@types/pg": "^7.14.10",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "eslint": "^7.20.0",
@@ -30,11 +32,14 @@
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.2",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.2"
   },
   "dependencies": {
     "module-alias": "^2.2.2",
-    "some-validations": "^0.1.0"
+    "pg": "^8.5.1",
+    "some-validations": "^0.1.0",
+    "typeorm": "^0.2.31"
   },
   "_moduleAliases": {
     "@": "dist"
