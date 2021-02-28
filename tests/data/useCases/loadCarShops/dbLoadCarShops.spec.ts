@@ -45,4 +45,10 @@ describe('DbLoadCarShops', () => {
     await sut.load();
     expect(loadAllSpy).toHaveBeenCalled();
   });
+
+  it('Should return a list of car shops on success', async () => {
+    const { sut } = makeSut();
+    const carShops = await sut.load();
+    expect(carShops).toEqual(makeFakeCarShops());
+  });
 });
