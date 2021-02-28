@@ -1,14 +1,9 @@
 import { AddCarShopController } from '@/presentation/controllers/addCarShop/addCarShopController';
-import {
-  MissingParamError,
-  InvalidParamError,
-  CnpjInUseError,
-} from '@/presentation/errors';
+import { MissingParamError, CnpjInUseError } from '@/presentation/errors';
 import {
   AddCarShop,
   AddCarShopModel,
   CarShopModel,
-  CnpjValidator,
   HttpRequest,
   Validation,
 } from '@/presentation/controllers/addCarShop/addCarShopProtocols';
@@ -32,15 +27,6 @@ const makeFakeRequest = (): HttpRequest => ({
   },
 });
 
-const makeCnpjValidator = (): CnpjValidator => {
-  class CnpjValidatorStub implements CnpjValidator {
-    isValid(_cnpj: string): boolean {
-      return true;
-    }
-  }
-  return new CnpjValidatorStub();
-};
-
 const makeAddCarShop = (): AddCarShop => {
   class AddCarShopStub implements AddCarShop {
     async add(_carShop: AddCarShopModel): Promise<CarShopModel> {
@@ -61,57 +47,27 @@ const makeValidation = (): Validation => {
 
 type SutTypes = {
   sut: AddCarShopController;
-  cnpjValidatorStub: CnpjValidator;
   addCarShopStub: AddCarShop;
   validationStub: Validation;
 };
 
 const makeSut = (): SutTypes => {
-  const cnpjValidatorStub = makeCnpjValidator();
   const addCarShopStub = makeAddCarShop();
   const validationStub = makeValidation();
-  const sut = new AddCarShopController(
-    cnpjValidatorStub,
-    addCarShopStub,
-    validationStub,
-  );
+  const sut = new AddCarShopController(addCarShopStub, validationStub);
   return {
     sut,
     addCarShopStub,
-    cnpjValidatorStub,
     validationStub,
   };
 };
 
 describe('AddCarShopController', () => {
-  it('Should return 400 if an invalid cnpj is provided', async () => {
-    const { sut, cnpjValidatorStub } = makeSut();
-    jest.spyOn(cnpjValidatorStub, 'isValid').mockReturnValueOnce(false);
-    const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('cnpj')));
-  });
-
   it('Should return 403 if an already in use cnpj is provided', async () => {
     const { sut, addCarShopStub } = makeSut();
     jest.spyOn(addCarShopStub, 'add').mockReturnValueOnce(null);
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(forbidden(new CnpjInUseError()));
-  });
-
-  it('Should call CnpjValidator with correct cnpj', async () => {
-    const { sut, cnpjValidatorStub } = makeSut();
-    const isValidSpy = jest.spyOn(cnpjValidatorStub, 'isValid');
-    await sut.handle(makeFakeRequest());
-    expect(isValidSpy).toHaveBeenCalledWith('any_cnpj');
-  });
-
-  it('Should return 500 if CnpjValidator throws', async () => {
-    const { sut, cnpjValidatorStub } = makeSut();
-    jest.spyOn(cnpjValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error();
-    });
-    const httpResponse = await sut.handle(makeFakeRequest());
-    expect(httpResponse).toEqual(serverError());
   });
 
   it('Should call AddCarShop with correct values', async () => {

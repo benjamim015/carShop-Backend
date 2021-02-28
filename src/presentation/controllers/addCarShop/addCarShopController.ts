@@ -1,4 +1,4 @@
-import { InvalidParamError, CnpjInUseError } from '@/presentation/errors';
+import { CnpjInUseError } from '@/presentation/errors';
 import {
   badRequest,
   serverError,
@@ -7,7 +7,6 @@ import {
 } from '@/presentation/helpers/http';
 import {
   Controller,
-  CnpjValidator,
   AddCarShop,
   HttpRequest,
   HttpResponse,
@@ -15,11 +14,7 @@ import {
 } from './addCarShopProtocols';
 
 export class AddCarShopController implements Controller {
-  constructor(
-    private cnpjValidator: CnpjValidator,
-    private addCarShop: AddCarShop,
-    private validation: Validation,
-  ) {}
+  constructor(private addCarShop: AddCarShop, private validation: Validation) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -28,10 +23,6 @@ export class AddCarShopController implements Controller {
         return badRequest(error);
       }
       const { name, cnpj } = httpRequest.body;
-      const isValidCnpj = this.cnpjValidator.isValid(cnpj);
-      if (!isValidCnpj) {
-        return badRequest(new InvalidParamError('cnpj'));
-      }
       const carShop = await this.addCarShop.add({
         name,
         cnpj,
