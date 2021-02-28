@@ -4,7 +4,7 @@ import {
   serverError,
   ok,
   forbidden,
-} from '@/presentation/helpers/http';
+} from '@/presentation/helpers/http/http';
 import {
   Controller,
   AddCarShop,

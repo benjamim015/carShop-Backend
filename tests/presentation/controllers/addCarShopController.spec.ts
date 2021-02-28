@@ -12,7 +12,7 @@ import {
   forbidden,
   ok,
   serverError,
-} from '@/presentation/helpers/http';
+} from '@/presentation/helpers/http/http';
 
 const makeFakeCarShop = (): CarShopModel => ({
   id: 'valid_id',
