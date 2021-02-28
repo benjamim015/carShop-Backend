@@ -3,6 +3,7 @@ import {
   MissingParamError,
   InvalidParamError,
   ServerError,
+  CnpjInUseError,
 } from '@/presentation/errors';
 import {
   AddCarShop,
@@ -88,6 +89,20 @@ describe('AddCarShopController', () => {
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('cnpj'));
+  });
+
+  it('Should return 403 if an already in use cnpj is provided', async () => {
+    const { sut, addCarShopStub } = makeSut();
+    jest.spyOn(addCarShopStub, 'add').mockReturnValueOnce(null);
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cnpj: 'invalid_cnpj',
+      },
+    };
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(403);
+    expect(httpResponse.body).toEqual(new CnpjInUseError());
   });
 
   it('Should call CnpjValidator with correct cnpj', async () => {
