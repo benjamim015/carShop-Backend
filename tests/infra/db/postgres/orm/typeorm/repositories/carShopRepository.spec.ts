@@ -12,7 +12,7 @@ const makeSut = (): SutTypes => {
   };
 };
 
-describe('CarShop PostgreSQL Repository', () => {
+describe('CarShop TypeORM Repository', () => {
   beforeAll(async () => {
     await TypeORMHelper.instance.connect();
   });
@@ -25,17 +25,19 @@ describe('CarShop PostgreSQL Repository', () => {
     await TypeORMHelper.instance.disconnect();
   });
 
-  it('should return an car shop on success', async () => {
-    const { sut } = makeSut();
-    const carShop = await sut.add({
-      name: 'any_name',
-      cnpj: 'any_cnpj',
+  describe('add()', () => {
+    it('should return an car shop on success', async () => {
+      const { sut } = makeSut();
+      const carShop = await sut.add({
+        name: 'any_name',
+        cnpj: 'any_cnpj',
+      });
+      expect(carShop).toBeTruthy();
+      expect(carShop).toHaveProperty('id');
+      expect(carShop).toHaveProperty('name', 'any_name');
+      expect(carShop).toHaveProperty('cnpj', 'any_cnpj');
+      expect(carShop).toHaveProperty('created_at');
+      expect(carShop).toHaveProperty('updated_at');
     });
-    expect(carShop).toBeTruthy();
-    expect(carShop).toHaveProperty('id');
-    expect(carShop).toHaveProperty('name', 'any_name');
-    expect(carShop).toHaveProperty('cnpj', 'any_cnpj');
-    expect(carShop).toHaveProperty('created_at');
-    expect(carShop).toHaveProperty('updated_at');
   });
 });
