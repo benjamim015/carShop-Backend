@@ -51,4 +51,13 @@ describe('DbLoadCarShops', () => {
     const carShops = await sut.load();
     expect(carShops).toEqual(makeFakeCarShops());
   });
+
+  it('Should throws if LoadCarShopsRepository throws', async () => {
+    const { sut, loadCarShopsRepositoryStub } = makeSut();
+    jest
+      .spyOn(loadCarShopsRepositoryStub, 'loadAll')
+      .mockReturnValueOnce(new Promise((_, reject) => reject(new Error())));
+    const promise = sut.load();
+    await expect(promise).rejects.toThrow();
+  });
 });
