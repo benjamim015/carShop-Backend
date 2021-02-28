@@ -3,6 +3,7 @@ import {
   LoadCarShops,
 } from '@/presentation/controllers/carShop/loadCarShops/loadCarShopProtocols';
 import { LoadCarShopsController } from '@/presentation/controllers/carShop/loadCarShops/loadCarShopsController';
+import { ok } from '@/presentation/helpers/http/http';
 
 const makeFakeCarShops = (): CarShopModel[] => [
   {
@@ -41,10 +42,16 @@ const makeSut = (): SutTypes => {
 };
 
 describe('LoadCarShops Controller', () => {
-  test('Should call LoadCarShops', async () => {
+  it('Should call LoadCarShops', async () => {
     const { sut, loadCarShopsStub } = makeSut();
     const loadSpy = jest.spyOn(loadCarShopsStub, 'load');
     await sut.handle({});
     expect(loadSpy).toHaveBeenCalled();
+  });
+
+  it('Should return 200 on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(ok(makeFakeCarShops()));
   });
 });
