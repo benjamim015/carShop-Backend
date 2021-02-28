@@ -1,4 +1,4 @@
-import { AddCarShopController } from '@/presentation/controllers/addCarShop/addCarShopController';
+import { AddCarShopController } from '@/presentation/controllers/carShop/addCarShop/addCarShopController';
 import { DbAddCarShop } from '@/data/useCases/addCarShop/dbAddCarShop';
 import { CarShopPgTypeORMRepository } from '@/infra/db/postgres/orm/typeorm/repositories/carShopRepository';
 import { makeAddCarShopValidation } from './addCarShopValidation';

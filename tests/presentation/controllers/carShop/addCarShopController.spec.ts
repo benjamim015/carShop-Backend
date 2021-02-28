@@ -1,4 +1,4 @@
-import { AddCarShopController } from '@/presentation/controllers/addCarShop/addCarShopController';
+import { AddCarShopController } from '@/presentation/controllers/carShop/addCarShop/addCarShopController';
 import { MissingParamError, CnpjInUseError } from '@/presentation/errors';
 import {
   AddCarShop,
@@ -6,7 +6,7 @@ import {
   CarShopModel,
   HttpRequest,
   Validation,
-} from '@/presentation/controllers/addCarShop/addCarShopProtocols';
+} from '@/presentation/controllers/carShop/addCarShop/addCarShopProtocols';
 import {
   badRequest,
   forbidden,
