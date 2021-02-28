@@ -3,10 +3,11 @@ import {
   CnpjValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from '@/presentation/helpers/validators';
-import { Validation, CnpjValidator } from '@/presentation/protocols/';
+} from '@/validation/validators';
+import { CnpjValidator } from '@/validation/protocols/cnpjValidator';
+import { Validation } from '@/presentation/protocols';
 
-jest.mock('@/presentation/helpers/validators/validationComposite');
+jest.mock('@/validation/validators/validationComposite');
 
 const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {

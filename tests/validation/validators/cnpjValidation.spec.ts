@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors';
-import { CnpjValidation } from '@/presentation/helpers/validators/cnpjValidation';
-import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
+import { CnpjValidation } from '@/validation/validators/cnpjValidation';
+import { CnpjValidator } from '@/validation/protocols/cnpjValidator';
 
 const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {

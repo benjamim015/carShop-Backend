@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/errors';
-import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
-import { Validation } from '../../protocols/validation';
+import { CnpjValidator } from '@/validation/protocols/cnpjValidator';
+import { Validation } from '../../presentation/protocols/validation';
 
 export class CnpjValidation implements Validation {
   constructor(

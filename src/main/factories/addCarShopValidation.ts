@@ -2,9 +2,9 @@ import {
   CnpjValidation,
   RequiredFieldValidation,
   ValidationComposite,
-} from '@/presentation/helpers/validators';
+} from '@/validation/validators';
 import { Validation } from '@/presentation/protocols';
-import { CnpjValidatorAdapter } from '@/main/adapters/validators/cnpjValidatorAdapter';
+import { CnpjValidatorAdapter } from '@/infra/validators/cnpjValidatorAdapter';
 
 export const makeAddCarShopValidation = (): ValidationComposite => {
   const validations: Validation[] = [];

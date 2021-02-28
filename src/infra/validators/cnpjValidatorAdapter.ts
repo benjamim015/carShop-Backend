@@ -1,4 +1,4 @@
-import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
+import { CnpjValidator } from '@/validation/protocols/cnpjValidator';
 import { cnpjValidator } from 'some-validations';
 
 export class CnpjValidatorAdapter implements CnpjValidator {
