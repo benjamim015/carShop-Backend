@@ -1,6 +1,8 @@
-import { AddCarShopRepository } from '@/data/protocols/addCarShopRepository';
-import { CarShopModel } from '@/domain/models/carShop';
-import { AddCarShopModel } from '@/domain/useCases/addCarShop';
+import {
+  AddCarShopRepository,
+  AddCarShopModel,
+  CarShopModel,
+} from '@/data/useCases/addCarShop/dbAddCarShopProtocols';
 import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
 import { getRepository } from 'typeorm';
 

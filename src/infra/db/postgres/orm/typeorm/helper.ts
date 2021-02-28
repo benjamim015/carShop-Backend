@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-nested-ternary */
-import { createConnection, getConnectionOptions, Connection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 
 export class TypeORMHelper {
   private client: Connection = null;
@@ -18,17 +17,7 @@ export class TypeORMHelper {
   }
 
   async connect(): Promise<void> {
-    const defaultConnectionOptions = await getConnectionOptions();
-    this.client = await createConnection(
-      Object.assign(defaultConnectionOptions, {
-        database:
-          process.env.NODE_ENV === 'test'
-            ? 'car_shops_tests'
-            : process.env.NODE_ENV === 'dev'
-            ? 'car_shops_dev'
-            : defaultConnectionOptions.database,
-      }),
-    );
+    this.client = await createConnection();
     await this.client.runMigrations();
   }
 

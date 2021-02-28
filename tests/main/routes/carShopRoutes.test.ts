@@ -24,4 +24,21 @@ describe('CarShop Routes', () => {
       })
       .expect(200);
   });
+
+  it('should return an error if a already in use CNPJ is provided', async () => {
+    await request(app)
+      .post('/api/carShop')
+      .send({
+        name: 'ShopCar',
+        cnpj: '44117161000135',
+      })
+      .expect(200);
+    await request(app)
+      .post('/api/carShop')
+      .send({
+        name: 'ShopCar',
+        cnpj: '44117161000135',
+      })
+      .expect(403);
+  });
 });
