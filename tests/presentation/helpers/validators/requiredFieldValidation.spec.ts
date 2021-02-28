@@ -1,5 +1,5 @@
 import { MissingParamError } from '@/presentation/errors';
-import { RequiredFieldValidation } from '@/presentation/helpers/validation/requiredFieldValidation';
+import { RequiredFieldValidation } from '@/presentation/helpers/validators/requiredFieldValidation';
 
 const makeSut = (): RequiredFieldValidation =>
   new RequiredFieldValidation('field');

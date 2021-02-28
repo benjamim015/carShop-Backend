@@ -1,11 +1,12 @@
 import { makeAddCarShopValidation } from '@/main/factories/addCarShopValidation';
-import { CnpjValidation } from '@/presentation/helpers/validation/cnpjValidation';
-import { RequiredFieldValidation } from '@/presentation/helpers/validation/requiredFieldValidation';
-import { Validation } from '@/presentation/protocols/validation';
-import { ValidationComposite } from '@/presentation/helpers/validation/validationComposite';
-import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
+import {
+  CnpjValidation,
+  RequiredFieldValidation,
+  ValidationComposite,
+} from '@/presentation/helpers/validators';
+import { Validation, CnpjValidator } from '@/presentation/protocols/';
 
-jest.mock('@/presentation/helpers/validation/validationComposite');
+jest.mock('@/presentation/helpers/validators/validationComposite');
 
 const makeCnpjValidator = (): CnpjValidator => {
   class CnpjValidatorStub implements CnpjValidator {

@@ -1,5 +1,5 @@
 import { InvalidParamError } from '@/presentation/errors';
-import { CnpjValidation } from '@/presentation/helpers/validation/cnpjValidation';
+import { CnpjValidation } from '@/presentation/helpers/validators/cnpjValidation';
 import { CnpjValidator } from '@/presentation/protocols/cnpjValidator';
 
 const makeCnpjValidator = (): CnpjValidator => {
