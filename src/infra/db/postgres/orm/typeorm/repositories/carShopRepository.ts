@@ -8,6 +8,9 @@ export class CarShopPgTypeORMRepository implements AddCarShopRepository {
   async add(carShopData: AddCarShopModel): Promise<CarShopModel> {
     const carShopRepository = getRepository(CarShop);
     const carShop = carShopRepository.create(carShopData);
+    if (await carShopRepository.findOne({ where: { cnpj: carShop.cnpj } })) {
+      return null;
+    }
     await carShopRepository.save(carShop);
     return carShop;
   }

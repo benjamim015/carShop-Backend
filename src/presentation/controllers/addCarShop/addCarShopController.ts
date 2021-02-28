@@ -1,5 +1,14 @@
-import { MissingParamError, InvalidParamError } from '@/presentation/errors';
-import { badRequest, serverError, ok } from '@/presentation/helpers/http';
+import {
+  MissingParamError,
+  InvalidParamError,
+  CnpjInUseError,
+} from '@/presentation/errors';
+import {
+  badRequest,
+  serverError,
+  ok,
+  forbidden,
+} from '@/presentation/helpers/http';
 import {
   Controller,
   CnpjValidator,
@@ -31,6 +40,9 @@ export class AddCarShopController implements Controller {
         name,
         cnpj,
       });
+      if (!carShop) {
+        return forbidden(new CnpjInUseError());
+      }
       return ok(carShop);
     } catch (error) {
       return serverError();
