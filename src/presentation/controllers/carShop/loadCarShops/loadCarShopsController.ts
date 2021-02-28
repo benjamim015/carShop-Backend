@@ -1,4 +1,4 @@
-import { ok, serverError } from '@/presentation/helpers/http/http';
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http';
 import {
   Controller,
   HttpRequest,
@@ -12,7 +12,7 @@ export class LoadCarShopsController implements Controller {
   async handle(_httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const carShops = await this.loadCarShops.load();
-      return ok(carShops);
+      return carShops.length ? ok(carShops) : noContent();
     } catch (error) {
       return serverError();
     }
