@@ -1,4 +1,4 @@
 export * from '@/presentation/protocols';
 export * from '@/domain/models/carShop';
 export * from '@/domain/useCases/addCarShop';
-export * from '@/presentation/helpers/validation/validation';
+export * from '@/presentation/protocols/validation';

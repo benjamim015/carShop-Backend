@@ -1,6 +1,6 @@
 import { CnpjValidation } from '@/presentation/helpers/validation/cnpjValidation';
 import { RequiredFieldValidation } from '@/presentation/helpers/validation/requiredFieldValidation';
-import { Validation } from '@/presentation/helpers/validation/validation';
+import { Validation } from '@/presentation/protocols/validation';
 import { ValidationComposite } from '@/presentation/helpers/validation/validationComposite';
 import { CnpjValidatorAdapter } from '@/validation/cnpjValidatorAdapter';
 
