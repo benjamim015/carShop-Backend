@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-underscore-dangle */
-import { createConnection, Connection } from 'typeorm';
+import {
+  createConnection,
+  Connection,
+  Repository,
+  EntityTarget,
+} from 'typeorm';
 
 export class TypeORMHelper {
   private client: Connection = null;
@@ -28,5 +33,9 @@ export class TypeORMHelper {
 
   async deleteFrom(table: string): Promise<void> {
     await this.client.query(`DELETE FROM ${table}`);
+  }
+
+  getRepository<T>(entity: EntityTarget<T>): Repository<T> {
+    return this.client.getRepository(entity);
   }
 }
