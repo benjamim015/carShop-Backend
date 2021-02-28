@@ -10,6 +10,7 @@ import {
   CarShopModel,
   CnpjValidator,
   HttpRequest,
+  Validation,
 } from '@/presentation/controllers/addCarShop/addCarShopProtocols';
 import {
   badRequest,
@@ -49,20 +50,36 @@ const makeAddCarShop = (): AddCarShop => {
   return new AddCarShopStub();
 };
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate(_input: any): Error {
+      return null;
+    }
+  }
+  return new ValidationStub();
+};
+
 type SutTypes = {
   sut: AddCarShopController;
   cnpjValidatorStub: CnpjValidator;
   addCarShopStub: AddCarShop;
+  validationStub: Validation;
 };
 
 const makeSut = (): SutTypes => {
   const cnpjValidatorStub = makeCnpjValidator();
   const addCarShopStub = makeAddCarShop();
-  const sut = new AddCarShopController(cnpjValidatorStub, addCarShopStub);
+  const validationStub = makeValidation();
+  const sut = new AddCarShopController(
+    cnpjValidatorStub,
+    addCarShopStub,
+    validationStub,
+  );
   return {
     sut,
     addCarShopStub,
     cnpjValidatorStub,
+    validationStub,
   };
 };
 
@@ -123,10 +140,7 @@ describe('AddCarShopController', () => {
     const { sut, addCarShopStub } = makeSut();
     const addSpy = jest.spyOn(addCarShopStub, 'add');
     await sut.handle(makeFakeRequest());
-    expect(addSpy).toHaveBeenCalledWith({
-      name: 'any_name',
-      cnpj: 'any_cnpj',
-    });
+    expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body);
   });
 
   it('Should return 500 if AddCarShop throws', async () => {
@@ -144,5 +158,12 @@ describe('AddCarShopController', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(ok(makeFakeCarShop()));
+  });
+
+  it('Should call AddCarShop with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+    await sut.handle(makeFakeRequest());
+    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body);
   });
 });
