@@ -15,16 +15,19 @@ import {
   AddCarShop,
   HttpRequest,
   HttpResponse,
+  Validation,
 } from './addCarShopProtocols';
 
 export class AddCarShopController implements Controller {
   constructor(
     private cnpjValidator: CnpjValidator,
     private addCarShop: AddCarShop,
+    private validation: Validation,
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      this.validation.validate(httpRequest.body);
       const requiredFields = ['name', 'cnpj'];
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
