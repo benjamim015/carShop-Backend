@@ -3,7 +3,7 @@ import {
   LoadCarShops,
 } from '@/presentation/controllers/carShop/loadCarShops/loadCarShopProtocols';
 import { LoadCarShopsController } from '@/presentation/controllers/carShop/loadCarShops/loadCarShopsController';
-import { ok } from '@/presentation/helpers/http/http';
+import { ok, serverError } from '@/presentation/helpers/http/http';
 
 const makeFakeCarShops = (): CarShopModel[] => [
   {
@@ -53,5 +53,16 @@ describe('LoadCarShops Controller', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle({});
     expect(httpResponse).toEqual(ok(makeFakeCarShops()));
+  });
+
+  it('Should return 500 if AddCarShop throws', async () => {
+    const { sut, loadCarShopsStub } = makeSut();
+    jest
+      .spyOn(loadCarShopsStub, 'load')
+      .mockImplementationOnce(
+        async () => new Promise((resolve, reject) => reject(new Error())),
+      );
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(serverError());
   });
 });
