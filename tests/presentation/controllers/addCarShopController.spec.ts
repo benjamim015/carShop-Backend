@@ -84,28 +84,6 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AddCarShopController', () => {
-  it('Should return 400 if no name is provided', async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        cnpj: 'any_cnpj',
-      },
-    };
-    const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')));
-  });
-
-  it('Should return 400 if no cnpj is provided', async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-      },
-    };
-    const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('cnpj')));
-  });
-
   it('Should return 400 if an invalid cnpj is provided', async () => {
     const { sut, cnpjValidatorStub } = makeSut();
     jest.spyOn(cnpjValidatorStub, 'isValid').mockReturnValueOnce(false);

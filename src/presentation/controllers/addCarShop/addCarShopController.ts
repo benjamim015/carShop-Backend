@@ -1,8 +1,4 @@
-import {
-  MissingParamError,
-  InvalidParamError,
-  CnpjInUseError,
-} from '@/presentation/errors';
+import { InvalidParamError, CnpjInUseError } from '@/presentation/errors';
 import {
   badRequest,
   serverError,
@@ -30,12 +26,6 @@ export class AddCarShopController implements Controller {
       const error = this.validation.validate(httpRequest.body);
       if (error) {
         return badRequest(error);
-      }
-      const requiredFields = ['name', 'cnpj'];
-      for (const field of requiredFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field));
-        }
       }
       const { name, cnpj } = httpRequest.body;
       const isValidCnpj = this.cnpjValidator.isValid(cnpj);
