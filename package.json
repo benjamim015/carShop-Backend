@@ -7,7 +7,8 @@
   "scripts": {
     "start:prod": "NODE_ENV=prod node dist/main/server.js",
     "start:dev": "NODE_ENV=dev tsnd --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "postbuild": "yarn start:prod",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test --watch -c jest.unit.config.js",
@@ -36,6 +37,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "supertest": "^6.1.3",
     "ts-jest": "^26.5.2",
     "ts-node-dev": "^1.1.6",
