@@ -6,7 +6,7 @@ export class DbLoadCarShops implements LoadCarShops {
   constructor(private loadCarShopsRepository: LoadCarShopsRepository) {}
 
   async load(): Promise<CarShopModel[]> {
-    await this.loadCarShopsRepository.loadAll();
-    return null;
+    const carShops = await this.loadCarShopsRepository.loadAll();
+    return carShops;
   }
 }
