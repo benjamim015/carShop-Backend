@@ -5,15 +5,21 @@ import {
   AddCarShopRepository,
 } from '@/data/useCases/addCarShop/dbAddCarShopProtocols';
 
+const makeFakeCarShop = (): CarShopModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  cnpj: 'valid_cnpj',
+});
+
+const makeFakeCarShopData = (): AddCarShopModel => ({
+  cnpj: 'valid_cnpj',
+  name: 'valid_name',
+});
+
 const makeAddCarShopRepository = (): AddCarShopRepository => {
   class AddCarShopRepositoryStub implements AddCarShopRepository {
     async add(_carShop: AddCarShopModel): Promise<CarShopModel> {
-      const fakeCarShop = {
-        id: 'valid_id',
-        name: 'valid_name',
-        cnpj: 'valid_cnpj',
-      };
-      return new Promise(resolve => resolve(fakeCarShop));
+      return new Promise(resolve => resolve(makeFakeCarShop()));
     }
   }
   return new AddCarShopRepositoryStub();
@@ -37,12 +43,8 @@ describe('DbAddCarShop UseCase', () => {
   it('should call AddCarShopRepository with correct values', async () => {
     const { sut, addCarShopRepositoryStub } = makeSut();
     const addSpy = jest.spyOn(addCarShopRepositoryStub, 'add');
-    const carShopData = {
-      cnpj: 'valid_cnpj',
-      name: 'valid_name',
-    };
-    await sut.add(carShopData);
-    expect(addSpy).toHaveBeenCalledWith(carShopData);
+    await sut.add(makeFakeCarShopData());
+    expect(addSpy).toHaveBeenCalledWith(makeFakeCarShopData());
   });
 
   it('should throw if DbAddCarShop throws', async () => {
@@ -50,21 +52,13 @@ describe('DbAddCarShop UseCase', () => {
     jest
       .spyOn(addCarShopRepositoryStub, 'add')
       .mockReturnValueOnce(new Promise((_, reject) => reject(new Error())));
-    const carShopData = {
-      cnpj: 'valid_cnpj',
-      name: 'valid_name',
-    };
-    const promise = sut.add(carShopData);
+    const promise = sut.add(makeFakeCarShopData());
     await expect(promise).rejects.toThrow();
   });
 
   it('should return an car shop on success', async () => {
     const { sut } = makeSut();
-    const carShopData = {
-      cnpj: 'valid_cnpj',
-      name: 'valid_name',
-    };
-    const carShop = await sut.add(carShopData);
-    expect(carShop).toEqual({ ...carShopData, id: 'valid_id' });
+    const carShop = await sut.add(makeFakeCarShopData());
+    expect(carShop).toEqual(makeFakeCarShop());
   });
 });
