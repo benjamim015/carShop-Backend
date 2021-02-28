@@ -1,4 +1,4 @@
-import { CnpjValidatorAdapter } from '@/validation/cnpjValidatorAdapter';
+import { CnpjValidatorAdapter } from '@/main/adapters/validators/cnpjValidatorAdapter';
 import { cnpjValidator } from 'some-validations';
 
 jest.mock('some-validations', () => ({
