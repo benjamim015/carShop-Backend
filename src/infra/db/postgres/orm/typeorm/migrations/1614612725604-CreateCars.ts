@@ -36,6 +36,7 @@ export class CreateCars1614612725604 implements MigrationInterface {
           {
             name: 'carShopCnpj',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
