@@ -5,6 +5,7 @@ import {
   AddCarToCarShopModel,
   HttpRequest,
   ok,
+  serverError,
 } from '@/presentation/controllers/car/addCarToCarShop/addCarToCarShopProtocols';
 
 const makeFakeCarData = (): CarModel => ({
@@ -63,5 +64,16 @@ describe('AddCarToCarShopController', () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(ok(makeFakeCarData()));
+  });
+
+  it('Should return 500 if AddCarToCarShop throws', async () => {
+    const { sut, addCarToCarShopStub } = makeSut();
+    jest
+      .spyOn(addCarToCarShopStub, 'add')
+      .mockImplementationOnce(
+        async () => new Promise((resolve, reject) => reject(new Error())),
+      );
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(serverError());
   });
 });
