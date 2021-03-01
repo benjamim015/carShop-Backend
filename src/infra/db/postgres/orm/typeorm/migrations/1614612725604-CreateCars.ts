@@ -34,6 +34,10 @@ export class CreateCars1614612725604 implements MigrationInterface {
             type: 'money',
           },
           {
+            name: 'carShopCnpj',
+            type: 'varchar',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
