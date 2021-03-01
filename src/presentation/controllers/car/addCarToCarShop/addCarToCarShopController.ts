@@ -1,10 +1,12 @@
-import { ok, serverError } from '@/presentation/helpers/http/http';
 import {
   AddCarToCarShop,
   Controller,
   HttpRequest,
   HttpResponse,
   Validation,
+  ok,
+  badRequest,
+  serverError,
 } from './addCarToCarShopProtocols';
 
 export class AddCarToCarShopController implements Controller {
@@ -15,7 +17,10 @@ export class AddCarToCarShopController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      this.validation.validate(httpRequest.body);
+      const error = this.validation.validate(httpRequest.body);
+      if (error) {
+        return badRequest(error);
+      }
       const car = await this.addCarToCarShop.add(httpRequest.body);
       return ok(car);
     } catch (error) {
