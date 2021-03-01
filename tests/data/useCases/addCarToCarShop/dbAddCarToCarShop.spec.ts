@@ -37,10 +37,16 @@ const makeSut = (): SutTypes => {
 };
 
 describe('DbAddCarToCarShop', () => {
-  it('should call AddCarToCarShopRepository with correct values', async () => {
+  it('Should call AddCarToCarShopRepository with correct values', async () => {
     const { sut, addCarToCarShopRepositoryStub } = makeSut();
     const addSpy = jest.spyOn(addCarToCarShopRepositoryStub, 'add');
     await sut.add(makeFakeCarData());
     expect(addSpy).toHaveBeenCalledWith(makeFakeCarData());
+  });
+
+  it('Should return an Car on success', async () => {
+    const { sut } = makeSut();
+    const carShops = await sut.add(makeFakeCarData());
+    expect(carShops).toEqual(makeFakeCarData());
   });
 });
