@@ -9,7 +9,7 @@ export class DbAddCarToCarShop implements AddCarToCarShop {
   constructor(private addCarToCarShopRepository: AddCarToCarShopRepository) {}
 
   async add(carShopData: AddCarToCarShopModel): Promise<CarModel> {
-    this.addCarToCarShopRepository.add(carShopData);
-    return null;
+    const car = await this.addCarToCarShopRepository.add(carShopData);
+    return car;
   }
 }
