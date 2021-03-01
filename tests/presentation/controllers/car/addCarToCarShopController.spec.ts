@@ -6,6 +6,7 @@ import {
   HttpRequest,
   ok,
   serverError,
+  Validation,
 } from '@/presentation/controllers/car/addCarToCarShop/addCarToCarShopProtocols';
 
 const makeFakeCarData = (): CarModel => ({
@@ -38,17 +39,32 @@ const makeAddCarToCarShop = (): AddCarToCarShop => {
   return new AddCarToCarShopStub();
 };
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate(_input: any): Error {
+      return null;
+    }
+  }
+  return new ValidationStub();
+};
+
 type SutTypes = {
   sut: AddCarToCarShopController;
   addCarToCarShopStub: AddCarToCarShop;
+  validationStub: Validation;
 };
 
 const makeSut = (): SutTypes => {
   const addCarToCarShopStub = makeAddCarToCarShop();
-  const sut = new AddCarToCarShopController(addCarToCarShopStub);
+  const validationStub = makeValidation();
+  const sut = new AddCarToCarShopController(
+    validationStub,
+    addCarToCarShopStub,
+  );
   return {
     sut,
     addCarToCarShopStub,
+    validationStub,
   };
 };
 
@@ -75,5 +91,12 @@ describe('AddCarToCarShopController', () => {
       );
     const httpResponse = await sut.handle(makeFakeRequest());
     expect(httpResponse).toEqual(serverError());
+  });
+
+  it('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+    await sut.handle(makeFakeRequest());
+    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body);
   });
 });
