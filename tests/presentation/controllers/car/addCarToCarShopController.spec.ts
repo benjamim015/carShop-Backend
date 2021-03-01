@@ -7,7 +7,9 @@ import {
   ok,
   serverError,
   Validation,
+  badRequest,
 } from '@/presentation/controllers/car/addCarToCarShop/addCarToCarShopProtocols';
+import { MissingParamError } from '@/presentation/errors';
 
 const makeFakeCarData = (): CarModel => ({
   id: 'valid_id',
@@ -98,5 +100,16 @@ describe('AddCarToCarShopController', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate');
     await sut.handle(makeFakeRequest());
     expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body);
+  });
+
+  it('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut();
+    jest
+      .spyOn(validationStub, 'validate')
+      .mockReturnValueOnce(new MissingParamError('any_filed'));
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(
+      badRequest(new MissingParamError('any_filed')),
+    );
   });
 });
