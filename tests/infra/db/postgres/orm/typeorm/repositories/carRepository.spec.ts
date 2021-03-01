@@ -1,9 +1,22 @@
 import { CarPgTypeORMRepository } from '@/infra/db/postgres/orm/typeorm/repositories/carRepository';
 import { TypeORMHelper } from '@/infra/db/postgres/orm/typeorm/helper';
+import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
+import { cnpjValidator } from 'some-validations';
 
-interface SutTypes {
+const cnpj = cnpjValidator.generate();
+
+const createCarShop = () => {
+  const carShopRepository = TypeORMHelper.instance.getRepository(CarShop);
+  const carShop = carShopRepository.create({
+    name: 'any_name',
+    cnpj,
+  });
+  carShopRepository.save(carShop);
+};
+
+type SutTypes = {
   sut: CarPgTypeORMRepository;
-}
+};
 
 const makeSut = (): SutTypes => {
   const sut = new CarPgTypeORMRepository();
@@ -19,6 +32,7 @@ describe('Car TypeORM Postgres Repository', () => {
 
   beforeEach(async () => {
     await TypeORMHelper.instance.deleteFrom('cars');
+    await TypeORMHelper.instance.deleteFrom('car_shops');
   });
 
   afterAll(async () => {
@@ -28,13 +42,14 @@ describe('Car TypeORM Postgres Repository', () => {
   describe('add()', () => {
     it('should return an car on success', async () => {
       const { sut } = makeSut();
+      createCarShop();
       const car = await sut.add({
         brand: 'any_brand',
         model: 'any_model',
         year: 0,
         color: 'any_color',
         price: 0,
-        carShopCnpj: 'any_cnpj',
+        carShopCnpj: cnpj,
       });
       expect(car).toBeTruthy();
       expect(car).toHaveProperty('id');
