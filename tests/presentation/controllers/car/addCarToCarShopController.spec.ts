@@ -4,16 +4,17 @@ import {
   AddCarToCarShop,
   AddCarToCarShopModel,
   HttpRequest,
+  ok,
 } from '@/presentation/controllers/car/addCarToCarShop/addCarToCarShopProtocols';
 
 const makeFakeCarData = (): CarModel => ({
-  id: 'any_id',
-  brand: 'any_brand',
-  model: 'any_model',
+  id: 'valid_id',
+  brand: 'valid_brand',
+  model: 'valid_model',
   year: 0,
-  color: 'any_color',
+  color: 'valid_color',
   price: 0,
-  carShopCnpj: 'any_cnpj',
+  carShopCnpj: 'valid_cnpj',
 });
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -51,10 +52,16 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AddCarToCarShopController', () => {
-  it('Should call AddCarShop with correct values', async () => {
+  it('Should call AddCarToCarShop with correct values', async () => {
     const { sut, addCarToCarShopStub } = makeSut();
     const addSpy = jest.spyOn(addCarToCarShopStub, 'add');
     await sut.handle(makeFakeRequest());
     expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body);
+  });
+
+  it('Should return 200 on success', async () => {
+    const { sut } = makeSut();
+    const httpResponse = await sut.handle(makeFakeRequest());
+    expect(httpResponse).toEqual(ok(makeFakeCarData()));
   });
 });
