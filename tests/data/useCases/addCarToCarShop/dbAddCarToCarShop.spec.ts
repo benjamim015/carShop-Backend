@@ -49,4 +49,13 @@ describe('DbAddCarToCarShop', () => {
     const carShops = await sut.add(makeFakeCarData());
     expect(carShops).toEqual(makeFakeCarData());
   });
+
+  it('Should throws if AddCarToCarShopRepository throws', async () => {
+    const { sut, addCarToCarShopRepositoryStub } = makeSut();
+    jest
+      .spyOn(addCarToCarShopRepositoryStub, 'add')
+      .mockReturnValueOnce(new Promise((_, reject) => reject(new Error())));
+    const promise = sut.add(makeFakeCarData());
+    await expect(promise).rejects.toThrow();
+  });
 });
