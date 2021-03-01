@@ -13,10 +13,10 @@ if (process.env.NODE_ENV === 'test') {
 
 module.exports = {
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "postgres",
+  host: process.env.NODE_ENV === 'prod' ? "postgres" : "localhost",
+  port: process.env.PG_PORT,
+  username: process.env.PG_USERNAME,
+  password: process.env.PG_PASSWORD,
   database: databaseName,
   entities: [`./${dir}/infra/db/postgres/orm/typeorm/entities/*.${extension}`],
   migrations: [`./${dir}/infra/db/postgres/orm/typeorm/migrations/*.${extension}`],
