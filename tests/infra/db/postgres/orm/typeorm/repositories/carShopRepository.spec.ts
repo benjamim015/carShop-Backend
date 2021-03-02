@@ -62,8 +62,8 @@ describe('CarShop TypeORM Postgres Repository', () => {
       await makeFakeCarShops();
       const carShops = await sut.loadAll();
       expect(carShops.length).toBe(2);
-      expect(carShops[0].name).toBe('any_name');
-      expect(carShops[1].name).toBe('other_name');
+      expect(carShops[0].name).toBe('other_name');
+      expect(carShops[1].name).toBe('any_name');
     });
 
     it('Should load empty list', async () => {

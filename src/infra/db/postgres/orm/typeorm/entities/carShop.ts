@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Car } from './car';
 
 @Entity('car_shops')
 export class CarShop {
@@ -16,6 +18,9 @@ export class CarShop {
 
   @Column()
   cnpj: string;
+
+  @OneToMany(() => Car, car => car.carShop, {})
+  cars: Car[];
 
   @CreateDateColumn()
   created_at: Date;

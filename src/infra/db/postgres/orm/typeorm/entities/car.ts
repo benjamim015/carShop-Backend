@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { CarShop } from './carShop';
 
 @Entity('cars')
 export class Car {
@@ -28,6 +31,10 @@ export class Car {
 
   @Column()
   carShopCnpj: string;
+
+  @ManyToOne(() => CarShop, carShop => carShop.cars)
+  @JoinColumn({ name: 'carShopCnpj', referencedColumnName: 'cnpj' })
+  carShop: CarShop;
 
   @CreateDateColumn()
   created_at: Date;
