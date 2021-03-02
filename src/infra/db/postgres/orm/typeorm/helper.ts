@@ -35,6 +35,11 @@ export class TypeORMHelper {
     await this.client.query(`DELETE FROM ${table}`);
   }
 
+  async deleteAllData(): Promise<void> {
+    await this.client.query('DELETE FROM cars');
+    await this.client.query('DELETE FROM car_shops');
+  }
+
   getRepository<T>(entity: EntityTarget<T>): Repository<T> {
     return this.client.getRepository(entity);
   }

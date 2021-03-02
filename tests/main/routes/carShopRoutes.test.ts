@@ -14,10 +14,11 @@ describe('CarShop Routes', () => {
   });
 
   beforeEach(async () => {
-    await TypeORMHelper.instance.deleteFrom('car_shops');
+    await TypeORMHelper.instance.deleteAllData();
   });
 
   afterAll(async () => {
+    await TypeORMHelper.instance.deleteAllData();
     await TypeORMHelper.instance.disconnect();
   });
 

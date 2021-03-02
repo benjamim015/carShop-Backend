@@ -22,21 +22,22 @@ const makeFakeRequest = (): AddCarToCarShopModel => ({
   carShopCnpj: 'any_cnpj',
 });
 
-describe('CarShop Routes', () => {
+describe('Car Routes', () => {
   beforeAll(async () => {
     await TypeORMHelper.instance.connect();
-    makeFakeCarShop();
   });
 
   beforeEach(async () => {
-    await TypeORMHelper.instance.deleteFrom('cars');
+    await TypeORMHelper.instance.deleteAllData();
   });
 
   afterAll(async () => {
+    await TypeORMHelper.instance.deleteAllData();
     await TypeORMHelper.instance.disconnect();
   });
 
   it('Should return an car on success', async () => {
+    makeFakeCarShop();
     await request(app).post('/api/car').send(makeFakeRequest()).expect(200);
   });
 });
