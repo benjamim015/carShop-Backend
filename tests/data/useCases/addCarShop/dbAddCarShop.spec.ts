@@ -9,11 +9,13 @@ const makeFakeCarShop = (): CarShopModel => ({
   id: 'valid_id',
   name: 'valid_name',
   cnpj: 'valid_cnpj',
+  image: 'valid_image',
 });
 
 const makeFakeCarShopData = (): AddCarShopModel => ({
   cnpj: 'valid_cnpj',
   name: 'valid_name',
+  image: 'valid_image',
 });
 
 const makeAddCarShopRepository = (): AddCarShopRepository => {

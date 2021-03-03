@@ -10,11 +10,13 @@ const makeFakeCarShops = (): CarShopModel[] => [
     id: 'any_id',
     name: 'any_name',
     cnpj: 'any_cnpj',
+    image: 'any_image',
   },
   {
     id: 'other_id',
     name: 'other_name',
     cnpj: 'other_cnpj',
+    image: 'any_image',
   },
 ];
 
