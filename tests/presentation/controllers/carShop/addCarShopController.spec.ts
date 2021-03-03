@@ -18,9 +18,11 @@ const makeFakeCarShop = (): CarShopModel => ({
   id: 'valid_id',
   name: 'valid_name',
   cnpj: 'valid_cnpj',
+  image: 'valid_image',
 });
 
 const makeFakeRequest = (): HttpRequest => ({
+  file: 'any_file',
   body: {
     name: 'any_name',
     cnpj: 'any_cnpj',

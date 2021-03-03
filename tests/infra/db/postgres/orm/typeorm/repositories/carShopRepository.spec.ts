@@ -46,6 +46,7 @@ describe('CarShop TypeORM Postgres Repository', () => {
       const carShop = await sut.add({
         name: 'any_name',
         cnpj: 'any_cnpj',
+        image: 'any_image',
       });
       expect(carShop).toBeTruthy();
       expect(carShop).toHaveProperty('id');
