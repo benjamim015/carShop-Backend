@@ -5,5 +5,6 @@ export type CarModel = {
   year: number;
   color: string;
   price: number;
+  image: string;
   carShopCnpj: string;
 };

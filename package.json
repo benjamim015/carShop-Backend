@@ -15,7 +15,7 @@
     "test:unit": "yarn test --watch -c jest.unit.config.js",
     "test:integration": "yarn test --watch -c jest.integration.config.js",
     "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage",
+    "test:ci": "yarn test --coverage --no-cache",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm:dev": "NODE_ENV=dev ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm:test": "NODE_ENV=test ts-node-dev ./node_modules/typeorm/cli.js"

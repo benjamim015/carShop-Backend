@@ -19,6 +19,7 @@ const makeFakeCarData = (): CarModel => ({
   color: 'valid_color',
   price: 0,
   carShopCnpj: 'valid_cnpj',
+  image: 'valid_image',
 });
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -29,6 +30,7 @@ const makeFakeRequest = (): HttpRequest => ({
     color: 'any_color',
     price: 0,
     carShopCnpj: 'any_cnpj',
+    image: 'valid_image',
   },
 });
 

@@ -50,6 +50,7 @@ describe('Car TypeORM Postgres Repository', () => {
         color: 'any_color',
         price: 0,
         carShopCnpj: cnpj,
+        image: 'any_image',
       });
       expect(car).toBeTruthy();
       expect(car).toHaveProperty('id');

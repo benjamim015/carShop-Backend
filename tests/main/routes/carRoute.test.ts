@@ -20,6 +20,7 @@ const makeFakeRequest = (): AddCarToCarShopModel => ({
   color: 'any_color',
   price: 200,
   carShopCnpj: 'any_cnpj',
+  image: 'any_image',
 });
 
 describe('Car Routes', () => {

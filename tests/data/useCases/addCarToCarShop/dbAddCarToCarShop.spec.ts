@@ -11,6 +11,7 @@ const makeFakeCarData = (): CarModel => ({
   color: 'any_color',
   price: 0,
   carShopCnpj: 'any_cnpj',
+  image: 'any_image',
 });
 
 const makeAddCarToCarShopRepository = (): AddCarToCarShopRepository => {
