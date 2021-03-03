@@ -4,5 +4,6 @@ export type HttpResponse = {
 };
 
 export type HttpRequest = {
+  file?: any;
   body?: any;
 };
