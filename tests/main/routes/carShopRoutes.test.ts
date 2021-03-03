@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import app from '@/main/config/app';
 import { TypeORMHelper } from '@/infra/db/postgres/orm/typeorm/helper';
+import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
+import { cnpjValidator } from 'some-validations';
 import request from 'supertest';
 import path from 'path';
-import { cnpjValidator } from 'some-validations';
-import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
+import rimraf from 'rimraf';
 
 const makeFakeCarShop = async () => {
-  const carShopRepository = await TypeORMHelper.instance.getRepository(CarShop);
+  const carShopRepository = TypeORMHelper.instance.getRepository(CarShop);
   const carShop = carShopRepository.create({
     name: 'any_name',
     cnpj: '00520550000131',
@@ -27,6 +29,7 @@ describe('CarShop Routes', () => {
   afterAll(async () => {
     await TypeORMHelper.instance.deleteAllData();
     await TypeORMHelper.instance.disconnect();
+    rimraf('tmp/uploads', () => {});
   });
 
   it('should return an car shop on success', done => {
