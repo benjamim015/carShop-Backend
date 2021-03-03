@@ -19,6 +19,9 @@ export class CarShop {
   @Column()
   cnpj: string;
 
+  @Column()
+  image: string;
+
   @OneToMany(() => Car, car => car.carShop, {})
   cars: Car[];
 
