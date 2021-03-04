@@ -32,6 +32,9 @@ export class Car {
   @Column()
   carShopCnpj: string;
 
+  @Column()
+  image: string;
+
   @ManyToOne(() => CarShop, carShop => carShop.cars)
   @JoinColumn({ name: 'carShopCnpj', referencedColumnName: 'cnpj' })
   carShop: CarShop;
