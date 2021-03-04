@@ -5,7 +5,6 @@ import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
 import { cnpjValidator } from 'some-validations';
 import request from 'supertest';
 import path from 'path';
-import rimraf from 'rimraf';
 
 const makeFakeCarShop = async () => {
   const carShopRepository = TypeORMHelper.instance.getRepository(CarShop);
@@ -29,7 +28,6 @@ describe('CarShop Routes', () => {
   afterAll(async () => {
     await TypeORMHelper.instance.deleteAllData();
     await TypeORMHelper.instance.disconnect();
-    rimraf('tmp/uploads', () => {});
   });
 
   it('should return an car shop on success', done => {

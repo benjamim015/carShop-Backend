@@ -23,6 +23,9 @@ const makeFakeCarData = (): CarModel => ({
 });
 
 const makeFakeRequest = (): HttpRequest => ({
+  file: {
+    filename: 'any_image',
+  },
   body: {
     brand: 'any_brand',
     model: 'any_model',
@@ -30,7 +33,6 @@ const makeFakeRequest = (): HttpRequest => ({
     color: 'any_color',
     price: 0,
     carShopCnpj: 'any_cnpj',
-    image: 'valid_image',
   },
 });
 
@@ -77,7 +79,10 @@ describe('AddCarToCarShopController', () => {
     const { sut, addCarToCarShopStub } = makeSut();
     const addSpy = jest.spyOn(addCarToCarShopStub, 'add');
     await sut.handle(makeFakeRequest());
-    expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body);
+    expect(addSpy).toHaveBeenCalledWith({
+      ...makeFakeRequest().body,
+      image: makeFakeRequest().file.filename,
+    });
   });
 
   it('Should return 200 on success', async () => {

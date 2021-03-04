@@ -22,7 +22,9 @@ const makeFakeCarShop = (): CarShopModel => ({
 });
 
 const makeFakeRequest = (): HttpRequest => ({
-  file: 'any_file',
+  file: {
+    filename: 'any_image',
+  },
   body: {
     name: 'any_name',
     cnpj: 'any_cnpj',
@@ -76,7 +78,10 @@ describe('AddCarShopController', () => {
     const { sut, addCarShopStub } = makeSut();
     const addSpy = jest.spyOn(addCarShopStub, 'add');
     await sut.handle(makeFakeRequest());
-    expect(addSpy).toHaveBeenCalledWith(makeFakeRequest().body);
+    expect(addSpy).toHaveBeenCalledWith({
+      ...makeFakeRequest().body,
+      image: makeFakeRequest().file.filename,
+    });
   });
 
   it('Should return 500 if AddCarShop throws', async () => {
