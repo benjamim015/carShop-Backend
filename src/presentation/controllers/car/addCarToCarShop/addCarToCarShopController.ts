@@ -1,3 +1,5 @@
+import { MissingParamError } from '@/presentation/errors';
+import fs from 'fs';
 import {
   AddCarToCarShop,
   Controller,
@@ -15,13 +17,22 @@ export class AddCarToCarShopController implements Controller {
     private addCarToCarShop: AddCarToCarShop,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle({ body, file }: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body);
+      const error = this.validation.validate(body);
       if (error) {
+        if (fs.existsSync(file.path)) {
+          await fs.promises.unlink(file.path);
+        }
         return badRequest(error);
       }
-      const car = await this.addCarToCarShop.add(httpRequest.body);
+      if (!file) {
+        return badRequest(new MissingParamError('image'));
+      }
+      const car = await this.addCarToCarShop.add({
+        ...body,
+        image: file.filename,
+      });
       return ok(car);
     } catch (error) {
       return serverError();

@@ -27,7 +27,7 @@ export class AddCarShopController implements Controller {
         return badRequest(error);
       }
       if (!file) {
-        return badRequest(new MissingParamError('car_shop_image'));
+        return badRequest(new MissingParamError('image'));
       }
       const { name, cnpj } = body;
       const carShop = await this.addCarShop.add({
