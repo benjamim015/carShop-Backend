@@ -1,3 +1,4 @@
+import { LoadCarShopRepository } from '@/data/protocols/loadCarShopRepository';
 import { LoadCarShopsRepository } from '@/data/protocols/loadCarShopsRepository';
 import {
   AddCarShopRepository,
@@ -8,7 +9,10 @@ import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
 import { getRepository } from 'typeorm';
 
 export class CarShopPgTypeORMRepository
-  implements AddCarShopRepository, LoadCarShopsRepository {
+  implements
+    AddCarShopRepository,
+    LoadCarShopsRepository,
+    LoadCarShopRepository {
   async add(carShopData: AddCarShopModel): Promise<CarShopModel> {
     const carShopRepository = getRepository(CarShop);
     const carShop = carShopRepository.create(carShopData);
@@ -27,5 +31,16 @@ export class CarShopPgTypeORMRepository
       },
     });
     return carShops;
+  }
+
+  async load(carShopId: string): Promise<CarShopModel> {
+    const carShopRepository = getRepository(CarShop);
+    const carShop = await carShopRepository.findOne({
+      relations: ['cars'],
+      where: {
+        id: carShopId,
+      },
+    });
+    return carShop;
   }
 }
