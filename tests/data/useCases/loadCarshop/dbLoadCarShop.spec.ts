@@ -11,7 +11,7 @@ const makeFakeCarShop = (): CarShopModel => ({
 
 const makeLoadCarShopRepository = (): LoadCarShopRepository => {
   class LoadCarShopRepositoryStub implements LoadCarShopRepository {
-    async load(): Promise<CarShopModel> {
+    async load(_carShopId: string): Promise<CarShopModel> {
       return new Promise(resolve => resolve(makeFakeCarShop()));
     }
   }
@@ -36,13 +36,13 @@ describe('DbLoadCarShop', () => {
   it('Should call LoadCarShopRepository', async () => {
     const { sut, LoadCarShopRepositoryStub } = makeSut();
     const loadSpy = jest.spyOn(LoadCarShopRepositoryStub, 'load');
-    await sut.load();
+    await sut.load('any_id');
     expect(loadSpy).toHaveBeenCalled();
   });
 
   it('Should return a car shop on success', async () => {
     const { sut } = makeSut();
-    const carShop = await sut.load();
+    const carShop = await sut.load('any_id');
     expect(carShop).toEqual(makeFakeCarShop());
   });
 
@@ -51,7 +51,7 @@ describe('DbLoadCarShop', () => {
     jest
       .spyOn(LoadCarShopRepositoryStub, 'load')
       .mockReturnValueOnce(new Promise((_, reject) => reject(new Error())));
-    const promise = sut.load();
+    const promise = sut.load('any_id');
     await expect(promise).rejects.toThrow();
   });
 });

@@ -1,5 +1,5 @@
 import { CarShopModel } from '../models/carShop';
 
 export interface LoadCarShop {
-  load: () => Promise<CarShopModel>;
+  load: (carShopId: string) => Promise<CarShopModel>;
 }
