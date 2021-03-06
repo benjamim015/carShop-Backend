@@ -5,6 +5,7 @@ import { CarShop } from '@/infra/db/postgres/orm/typeorm/entities/carShop';
 const makeFakeCarShops = async () => {
   const carShopsRepository = TypeORMHelper.instance.getRepository(CarShop);
   const carShop1 = carShopsRepository.create({
+    id: 'any_id',
     name: 'any_name',
     cnpj: 'any_cnpj',
   });
@@ -71,6 +72,21 @@ describe('CarShop TypeORM Postgres Repository', () => {
       const { sut } = makeSut();
       const carShops = await sut.loadAll();
       expect(carShops.length).toBe(0);
+    });
+  });
+
+  describe('load()', () => {
+    it('Should load an car shop on success', async () => {
+      const { sut } = makeSut();
+      await makeFakeCarShops();
+      const carShop = await sut.load('any_id');
+      expect(carShop).toBeTruthy();
+      expect(carShop).toHaveProperty('id');
+      expect(carShop).toHaveProperty('name', 'any_name');
+      expect(carShop).toHaveProperty('cnpj', 'any_cnpj');
+      expect(carShop).toHaveProperty('cars');
+      expect(carShop).toHaveProperty('created_at');
+      expect(carShop).toHaveProperty('updated_at');
     });
   });
 });
