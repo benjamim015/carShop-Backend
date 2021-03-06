@@ -22,7 +22,6 @@ export class CarShopPgTypeORMRepository
   async loadAll(): Promise<CarShopModel[]> {
     const carShopsRepository = getRepository(CarShop);
     const carShops = await carShopsRepository.find({
-      relations: ['cars'],
       order: {
         created_at: 'DESC',
       },
