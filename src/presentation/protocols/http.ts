@@ -5,5 +5,6 @@ export type HttpResponse = {
 
 export type HttpRequest = {
   file?: any;
+  params?: any;
   body?: any;
 };
