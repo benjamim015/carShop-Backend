@@ -8,10 +8,13 @@ services:
     restart: always
     command: sh -c "yarn --only=prod && yarn start:prod"
     volumes:
+      - ./src:/usr/src/api/src
       - ./dist/:/usr/src/api/dist
       - ./package.json:/usr/src/api/package.json
       - ./yarn.lock:/usr/src/api/yarn.lock
       - ./ormconfig.js:/usr/src/api/ormconfig.js
+      - ./tsconfig.json:/usr/src/api/tsconfig.json
+      - ./tsconfig.build.json:/usr/src/api/tsconfig.build.json
     env_file:
       - .env
     ports:

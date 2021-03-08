@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start:docker": "rimraf dist && tsc -p tsconfig.build.json && docker-compose up",
-    "start:prod": "NODE_ENV=prod node dist/main/server.js",
+    "start:prod": "tsc -p tsconfig.build.json && NODE_ENV=prod yarn typeorm migration:run && NODE_ENV=prod node dist/main/server.js",
     "start:dev": "NODE_ENV=dev tsnd --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "yarn start:prod",
